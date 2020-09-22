@@ -26,36 +26,18 @@
 import firebase from 'firebase'
 import db from '../firebaseConfig/firebaseInit'
 export default {
-  name: 'Home',
-  components: {
-    
-  },
-  data(){
-    return{
-      allProducts:[],
-      isLoggedIn: false
-    }
-  },
-  created(){
-    db.collection("products").get().then(querySnapshot => {
-      querySnapshot.forEach(product => {
-        const data = {
-          'id': product.id,
-          'category': product.data().category,
-          'image': product.data().image,
-          'newPrice': product.data().newPrice,
-          'oldPrice': product.data().oldPrice,
-          'productName': product.data().productName,
-          'store': product.data().store,
+    props:['allProducts'],
+    data(){
+        return{
+            isLoggedIn: false
         }
-        this.allProducts.push(data)
-      })
-    })
-    if(firebase.auth().currentUser){
-      this.isLoggedIn = true;
-    }
-  },
-  methods:{
+    },
+    created(){
+        if(firebase.auth().currentUser){
+            this.isLoggedIn = true;
+        }
+    },
+    methods:{
     favoriteItem(id){
       const currentUserUid = firebase.auth().currentUser.uid
       let item = id
@@ -71,7 +53,7 @@ export default {
 </script>
 
 <style scoped>
-  .card{
+    .card{
     margin-bottom: 40px;
     margin-top: 40px;
     outline: none;
